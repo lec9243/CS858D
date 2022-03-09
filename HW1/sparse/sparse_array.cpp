@@ -17,6 +17,12 @@ void sparse_array::checker() {
   cout << "Rank at Pos 4 is: " << rv->rank1(4) << "\n";
 }
 
+void sparse_array::printer() {
+  cout << "bv_length: " << bv_length << endl;
+  cout << "bv: " << bv << endl;
+  return;
+}
+
 
 void sparse_array::create(uint64_t size) {
   bv_length = size;
@@ -29,7 +35,7 @@ void sparse_array::create(uint64_t size) {
 }
 
 void sparse_array::update_support() {
-  rv = new rank_support_local(&bv, 1);
+  rv = new rank_support_local(&bv, 0);
   rv->build_table();
   // rv->print_rs_block();
   sv = new select_support_local(rv);
@@ -62,7 +68,7 @@ bool sparse_array::get_at_rank(uint64_t r, string& elem) {
 
 bool sparse_array::get_at_index(uint64_t r, string& elem) {
   bool ret = false;
-  cout << "rank at " << r << " is " << rv->rank1(r) << "\n";
+  // cout << "rank at " << r << " is " << rv->rank1(r) << "\n";
   if (r == 0) {
     if (rv->rank1(r) == 1) {
       elem = elements[0];

@@ -32,6 +32,7 @@ public:
   void save(string& fname);
   void load(string& fname);
   void checker();
+  void printer();
 
 private:
   uint64_t bv_length;

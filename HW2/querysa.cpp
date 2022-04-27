@@ -106,6 +106,8 @@ int main(int argc, char* argv[]) {
   ofstream toWritetoFile;
   toWritetoFile.open(output, ios_base::app);
 
+  auto start1 = chrono::system_clock::now();
+
   if ((query_mode == "simpaccel")) {
     cout << "MODE SIMPACCEL" << endl;
     string found_dna_sequence; // for debug, otherwise useless
@@ -188,23 +190,23 @@ int main(int argc, char* argv[]) {
         }
       }
 
-      // following just for write to file
-      string comment_name = Names[i];
-      int comment_length = comment_name.size();
-      comment_name = comment_name.substr(1, comment_length-1);
-      // following 5 lines for indentation only, check comment below
-      toWritetoFile << comment_name;
-      for (int space_writer = comment_name.size(); space_writer < 16; space_writer++) {
-        toWritetoFile << " ";
-      }
-      toWritetoFile << pos_list.size() << "      ";
-      // not sure if indentation matters, the following will work
-      // toWritetoFile << comment_name << "  " << pos_list.size() << "      ";
-      for (int num_list_idx = 0; num_list_idx < pos_list.size(); num_list_idx++) {
-        toWritetoFile << " " << pos_list[num_list_idx];
-      }
-      toWritetoFile << "" << endl;
-      // write to file end here
+      // // following just for write to file
+      // string comment_name = Names[i];
+      // int comment_length = comment_name.size();
+      // comment_name = comment_name.substr(1, comment_length-1);
+      // // following 5 lines for indentation only, check comment below
+      // toWritetoFile << comment_name;
+      // for (int space_writer = comment_name.size(); space_writer < 16; space_writer++) {
+      //   toWritetoFile << " ";
+      // }
+      // toWritetoFile << pos_list.size() << "      ";
+      // // not sure if indentation matters, the following will work
+      // // toWritetoFile << comment_name << "  " << pos_list.size() << "      ";
+      // for (int num_list_idx = 0; num_list_idx < pos_list.size(); num_list_idx++) {
+      //   toWritetoFile << " " << pos_list[num_list_idx];
+      // }
+      // toWritetoFile << "" << endl;
+      // // write to file end here
 
     }
   } else {
@@ -285,26 +287,40 @@ int main(int argc, char* argv[]) {
         }
       }
 
-      // following just for write to file
-      string comment_name = Names[i];
-      int comment_length = comment_name.size();
-      comment_name = comment_name.substr(1, comment_length-1);
-      // following 5 lines for indentation only, check comment below
-      toWritetoFile << comment_name;
-      for (int space_writer = comment_name.size(); space_writer < 16; space_writer++) {
-        toWritetoFile << " ";
-      }
-      toWritetoFile << pos_list.size() << "      ";
-      // not sure if indentation matters, the following will work
-      //toWritetoFile << comment_name << "  " << pos_list.size() << "      ";
-      for (int num_list_idx = 0; num_list_idx < pos_list.size(); num_list_idx++) {
-        toWritetoFile << " " << pos_list[num_list_idx];
-      }
-      toWritetoFile << "" << endl;
-      // write to file end here
+      // // following just for write to file
+      // string comment_name = Names[i];
+      // int comment_length = comment_name.size();
+      // comment_name = comment_name.substr(1, comment_length-1);
+      // // following 5 lines for indentation only, check comment below
+      // toWritetoFile << comment_name;
+      // for (int space_writer = comment_name.size(); space_writer < 16; space_writer++) {
+      //   toWritetoFile << " ";
+      // }
+      // toWritetoFile << pos_list.size() << "      ";
+      // // not sure if indentation matters, the following will work
+      // //toWritetoFile << comment_name << "  " << pos_list.size() << "      ";
+      // for (int num_list_idx = 0; num_list_idx < pos_list.size(); num_list_idx++) {
+      //   toWritetoFile << " " << pos_list[num_list_idx];
+      // }
+      // toWritetoFile << "" << endl;
+      // // write to file end here
 
     }
   }
+
+  auto end1 = chrono::system_clock::now();
+  chrono::duration<double> elapsed_seconds1 = end1-start1;
+  cout << "------------------------------------------" << endl;
+  cout << "Query amount: " << Names.size() << endl;
+  cout << "Genome length / Suffix Array Size: " << sa_size << endl;
+  cout << "Algorithm: " << query_mode << endl;
+  if (InputKmer) {
+    cout << "With Prefix Table" << endl;
+  } else {
+    cout << "Without Prefix Table" << endl;
+  }
+  cout << "Time for query: " << elapsed_seconds1.count() << "s\n";
+
 
   toWritetoFile.close();
 

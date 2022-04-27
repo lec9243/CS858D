@@ -11,6 +11,7 @@
 #include <utility>
 #include <string>
 #include <cstdlib>
+#include <ctime>
 #include "utils.hpp"
 
 using namespace std;
@@ -47,7 +48,17 @@ int main(int argc, char* argv[]) {
 
   // build Suffix Array
   csa_bitcompressed<> sa;
+
+  auto start1 = chrono::system_clock::now();
+
   construct_im(sa, DNAs[0], 1);
+
+  auto end1 = chrono::system_clock::now();
+  chrono::duration<double> elapsed_seconds1 = end1-start1;
+  cout << "------------------------------------------" << endl;
+  cout << "Time for build SA: " << elapsed_seconds1.count() << "s\n";
+
+
   int dna_size = DNAs[0].size();
   int sa_size = sa.size();
 
@@ -81,6 +92,9 @@ int main(int argc, char* argv[]) {
 
   // build Prefix Table if required
   unordered_map<string, pair<int, int>> PrefixTable;
+
+  auto start2 = chrono::system_clock::now();
+
   if (kmer > 0) {
     // this means --preftab flag is given
     string KPrefix = "";
@@ -131,6 +145,12 @@ int main(int argc, char* argv[]) {
     // cout << "prefix table check complete!" << endl;
   }
 
+  auto end2 = chrono::system_clock::now();
+  chrono::duration<double> elapsed_seconds2 = end2-start2;
+  cout << "Time for build PrefixTable: " << elapsed_seconds2.count() << "s\n";
+
+  cout << "------------------------------------------" << endl;
+  
   // serialize and write to binary
   ofstream binarywriter(output, ios::out | ios::binary | ios::trunc);
   if (!binarywriter) {
